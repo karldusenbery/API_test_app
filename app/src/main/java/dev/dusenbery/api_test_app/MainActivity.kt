@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 connection.setRequestProperty("x-rapidapi-host", "sameer-kumar-aztro-v1.p.rapidapi.com")
 
                 // set the rapid-api key
-                connection.setRequestProperty("x-rapidapi-key", "<YOUR_RAPIDAPI_KEY>")
+                connection.setRequestProperty("x-rapidapi-key", "ca72e2b401msh164821aeb296564p17df34jsn37f9be2b9fe4")
                 connection.setRequestProperty("content-type", "application/x-www-form-urlencoded")
                 // set the request method - POST
                 connection.requestMethod = "POST"
@@ -97,6 +97,33 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             // if not able to retrieve data return null
             return null
 
+        }
+
+        private fun onResponse(result: String?) {
+            try {
+
+                // convert the string to JSON object for better reading
+                val resultJson = JSONObject(result)
+
+                // Initialize prediction text
+                var prediction ="Today's prediction nn"
+                prediction += this.sunSign+"n"
+
+                // Update text with various fields from response
+                prediction += resultJson.getString("date_range")+"nn"
+                prediction += resultJson.getString("description")
+
+                //Update the prediction to the view
+                setText(this.resultView,prediction)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                this.resultView!!.text = "Oops!! something went wrong, please try again"
+            }
+        }
+
+        private fun setText(text: TextView?, value: String) {
+            runOnUiThread { text!!.text = value }
         }
 
     }

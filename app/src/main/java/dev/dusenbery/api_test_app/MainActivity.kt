@@ -49,4 +49,54 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 sunSign = parent.getItemAtPosition(position).toString()
             }
         }
+
+        public suspend fun getPredictions(view: android.view.View) {
+            try {
+                val result = GlobalScope.async {
+                    callAztroAPI("https://sameer-kumar-aztro-v1.p.rapidapi.com/?sign=" + sunSign + "&day=today")
+                }.await()
+
+                onResponse(result)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        private fun callAztroAPI(apiUrl:String ):String?{
+            var result: String? = ""
+            val url: URL;
+            var connection: HttpURLConnection? = null
+            try {
+                url = URL(apiUrl)
+                connection = url.openConnection() as HttpURLConnection
+                // set headers for the request
+                // set host name
+                connection.setRequestProperty("x-rapidapi-host", "sameer-kumar-aztro-v1.p.rapidapi.com")
+
+                // set the rapid-api key
+                connection.setRequestProperty("x-rapidapi-key", "<YOUR_RAPIDAPI_KEY>")
+                connection.setRequestProperty("content-type", "application/x-www-form-urlencoded")
+                // set the request method - POST
+                connection.requestMethod = "POST"
+                val `in` = connection.inputStream
+                val reader = InputStreamReader(`in`)
+
+                // read the response data
+                var data = reader.read()
+                while (data != -1) {
+                    val current = data.toChar()
+                    result += current
+                    data = reader.read()
+                }
+                return result
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            // if not able to retrieve data return null
+            return null
+
+        }
+
     }

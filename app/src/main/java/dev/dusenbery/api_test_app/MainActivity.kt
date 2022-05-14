@@ -22,6 +22,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
+
+            var buttonView: Button = findViewById(R.id.button)
+            button.setOnClickListener {
+                GlobalScope.async {
+                    getPredictions(buttonView)
+                }
+
+            }
+
+            val spinner = findViewById<Spinner>(R.id.spinner)
+            val adapter = ArrayAdapter.createFromResource(this,R.array.sunsigns,android.R.layout.simple_spinner_item)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter;
+            spinner.onItemSelectedListener = this
+
+            resultView = findViewById(R.id.resultView)
+
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {

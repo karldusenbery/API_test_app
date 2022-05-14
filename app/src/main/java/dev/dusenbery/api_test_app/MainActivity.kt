@@ -42,10 +42,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            TODO("Not yet implemented")
+            sunSign = "Aries"
         }
-
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            TODO("Not yet implemented")
+            if (parent != null) {
+                sunSign = parent.getItemAtPosition(position).toString()
+            }
         }
     }

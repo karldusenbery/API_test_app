@@ -15,10 +15,14 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
     {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+
+        var sunSign = "Aries"
+        var resultView: TextView? = null
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+        }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
             TODO("Not yet implemented")
